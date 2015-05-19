@@ -4,7 +4,7 @@ resolvers += "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/"
 
 name := "http-mock"
 
-version := "0.1-SNAPSHOT"
+version := "0.1"
 
 scalaVersion := "2.11.6"
 
