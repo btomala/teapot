@@ -2,13 +2,13 @@ package http.mock
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers._
 import akka.stream.ActorFlowMaterializer
 import akka.testkit.TestKit
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import dispatch._
 import Defaults._
+import http.mock.helpers.dispatch
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -27,23 +27,16 @@ class HttpMockSpec extends TestKit(ActorSystem("ServiceTest")) with WordSpecLike
     }
   }
 
-  val address = s"http://localhost:$port/"
-  val headers = scala.collection.immutable.Seq(
-    Host("localhost", port),
-    Connection("keep-alive"),
-    Accept(Vector(MediaRanges.`*/*`)),
-    `User-Agent`("Dispatch/0.11.1-SNAPSHOT")
-  )
-
-  val request = HttpRequest(uri = Uri(address), headers = headers)
-  val response = HttpResponse()
+  val address = dispatch.path(port)
+  val req = dispatch.request(port)
+  val resp = HttpResponse()
 
   "Http Mock Server" when {
     "have recorded one request" should {
       "send recorded response" in {
-        mockServer.record (request → response)
+        mockServer.record (req → resp)
         val res = Await.result(Http(url(address)), 2 seconds)
-        res.getStatusCode shouldBe response.status.intValue
+        res.getStatusCode shouldBe resp.status.intValue
       }
     }
   }
@@ -60,7 +53,7 @@ class HttpMockSpec extends TestKit(ActorSystem("ServiceTest")) with WordSpecLike
   "Http Mock Server" when {
     "have recorded some request but request didn't match" should {
       "throw InternalServerError" in {
-        mockServer.record (HttpRequest() → response)
+        mockServer.record (HttpRequest() → resp)
         val res = Http(url(address)).map(_.getStatusCode)
         Await.result(res, 2 seconds) shouldBe 500
       }
