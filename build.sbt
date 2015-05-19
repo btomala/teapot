@@ -8,14 +8,16 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.6"
 
-val Version = (
- "akka-http"  → "1.0-RC2",
- "scalaTest" → "2.2.4"
+val libVer = Map(
+ "akka-http" → "1.0-RC2",
+ "scalaTest" → "2.2.4",
+  "dispatch" → "0.11.2"
   )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"       %% "akka-http-scala-experimental"          % Version("akka-http"),
-  "com.typesafe.akka"       %% "akka-http-testkit-scala-experimental"  % Version("akka-http") % "test",
-  "org.scalatest"           %% "scalatest"                             % Version("scalaTest") % "test"
+  "com.typesafe.akka"       %% "akka-http-scala-experimental"          % libVer("akka-http"),
+  "com.typesafe.akka"       %% "akka-http-testkit-scala-experimental"  % libVer("akka-http") % "test",
+  "net.databinder.dispatch" %% "dispatch-core"                         % libVer("dispatch") % "test",
+  "org.scalatest"           %% "scalatest"                             % libVer("scalaTest") % "test"
 )
 
