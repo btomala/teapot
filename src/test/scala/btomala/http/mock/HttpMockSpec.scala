@@ -1,4 +1,4 @@
-package http.mock
+package btomala.http.mock
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
@@ -8,7 +8,8 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import dispatch._
 import Defaults._
-import http.mock.helpers.dispatch
+
+import btomala.http.mock.helpers.dispatch
 
 import scala.concurrent.Await
 import scala.concurrent.duration._

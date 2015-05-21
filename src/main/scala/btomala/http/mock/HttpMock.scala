@@ -1,9 +1,8 @@
-package http.mock
+package btomala.http.mock
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.Accept
 import akka.stream.ActorFlowMaterializer
 import akka.stream.scaladsl.Sink
 import com.typesafe.config.{ConfigFactory, Config}

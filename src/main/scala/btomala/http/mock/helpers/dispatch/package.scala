@@ -1,10 +1,9 @@
-package http.mock.helpers
+package btomala.http.mock.helpers
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
 
 package object dispatch {
- 
   def path(port: Int) = s"http://localhost:$port/"
   def headers(port: Int) = scala.collection.immutable.Seq(
     Host("localhost", port),
