@@ -1,5 +1,7 @@
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
+organization := "btomala"
+
 name := "http-mock"
 
 version := "0.1"
