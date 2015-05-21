@@ -6,12 +6,12 @@
 Is a simple mocking http server framework based on [akka-http](akka.io) written in scala friendly api in future release ;).
 
 ## usage 
---------
 
-To use add this to your build
+To use add resolver to your build
 
 ```
 resolvers += "btomala" at "https://dl.bintray.com/btomala/maven/"
+
 libraryDependencies += "btomala" %% "http-mock" % "0.1"
 ```
 
@@ -37,7 +37,6 @@ For more look in to the `HttpMockSpec`
 Test must executed sequential or create new instance of server for every test/suit.
 
 ## todo
--------
 
  - validation
  - hash for the test - one server for all tests
