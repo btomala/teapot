@@ -3,10 +3,44 @@
  
 # http-mock
 
-Is a simple mocking http server framework based on [akka-http](akka.io) written in scala with friendly api.
+Is a simple mocking http server framework based on [akka-http](akka.io) written in scala friendly api in future release ;).
 
 ## usage 
+--------
 
-Look in to the `HttpMockSpec`
+To use add this to your build
+
+```
+resolvers += "btomala" at "https://dl.bintray.com/btomala/maven/"
+libraryDependencies += "btomala" %% "http-mock" % "0.1"
+```
+
+Sample of usage
+
+```scala
+
+import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
+import btomala.http.mock.HttpMock
+
+  val server = new HttpMock()
+  val request = HttpResponse()
+  val response = HttpResponse()
+  
+  server.record (request → response)
+
+  //here make request to the server..
+
+```
+
+For more look in to the `HttpMockSpec`
+
 Test must executed sequential or create new instance of server for every test/suit.
 
+## todo
+-------
+
+ - validation
+ - hash for the test - one server for all tests
+ - simple support for json body and other content-type
+ - use akka-http client in test
+ - nice dsl
