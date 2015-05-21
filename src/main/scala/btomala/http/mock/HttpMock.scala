@@ -15,7 +15,8 @@ class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem
   private val recorded = scala.collection.mutable.Map[HttpRequest, HttpResponse]()
 
   private val requests: HttpRequest => HttpResponse = { request ⇒
-    val response = recorded.get(request).getOrElse(throw new UnknownRequestException(request.toString))
+    //fixme INTERNAL SERVER ERROR is returned instead exception because is thrown in different thread - move to validation
+  val response = recorded.get(request).getOrElse(throw new UnknownRequestException(request.toString))
     recorded -= request
     system.log.info("\n" + request + "\n" + response)
     response

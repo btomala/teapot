@@ -4,6 +4,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
 
 package object dispatch {
+  //todo port should be optional ??
   def path(port: Int) = s"http://localhost:$port/"
   def headers(port: Int) = scala.collection.immutable.Seq(
     Host("localhost", port),
