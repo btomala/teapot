@@ -22,17 +22,17 @@ class HttpMockSpec extends TestKit(ActorSystem("ServiceTest")) with WordSpecLike
   val port = 10080
 
   val mockServer = new HttpMock()
-  "Http Mock Server" should {
-    s"be running on port $port" in {
-      mockServer.port shouldBe port
-    }
-  }
-
-  val address = dispatch.path(port)
-  val req = dispatch.request(port)
-  val resp = HttpResponse()
-
   "Http Mock Server" when {
+    "created" should {
+      s"be running on port $port" in {
+        mockServer.port shouldBe port
+      }
+    }
+
+    val address = mockServer.path
+    val req = dispatch.request(port)
+    val resp = HttpResponse()
+
     "have recorded one request" should {
       "send recorded response" in {
         mockServer.record (req → resp)
@@ -40,18 +40,12 @@ class HttpMockSpec extends TestKit(ActorSystem("ServiceTest")) with WordSpecLike
         res.getStatusCode shouldBe resp.status.intValue
       }
     }
-  }
-
-  "Http Mock Server" when {
     "not have recorded any request" should {
       "return InternalServerError " in {
         val res = Http(url(address)).map(_.getStatusCode)
         Await.result(res, 10 seconds) shouldBe 500
       }
     }
-  }
-
-  "Http Mock Server" when {
     "have recorded some request but request didn't match" should {
       "throw InternalServerError" in {
         mockServer.record (HttpRequest() → resp)
