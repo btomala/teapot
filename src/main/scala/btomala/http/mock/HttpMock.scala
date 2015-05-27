@@ -11,7 +11,7 @@ class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem
 
   val host = config.getString("mock.http.interface")
   val port = config.getInt("mock.http.port")
-  val path = s"http://$host:$port"
+  val path = s"http://$host:$port/"
 
   private val recorded = scala.collection.mutable.Map[HttpRequest, HttpResponse]()
 
