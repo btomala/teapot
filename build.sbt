@@ -4,7 +4,7 @@ organization := "btomala"
 
 name := "teapot"
 
-version := "0.2-SNAPSHOT"
+version := "0.2-snapshot"
 
 scalaVersion := "2.11.6"
 
