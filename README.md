@@ -10,9 +10,9 @@ Is a simple mocking http server based on [akka-http](akka.io) written in scala.
 To use add resolver to your build
 
 ```
-resolvers += "btomala" at "https://dl.bintray.com/btomala/maven/"
+resolvers += "btomala at bintray" at "https://dl.bintray.com/btomala/maven/"
 
-libraryDependencies += "btomala" %% "http-mock" % "0.1"
+libraryDependencies += "btomala" %% "teapot" % "0.2-snapshot"
 ```
 
 Sample of usage
