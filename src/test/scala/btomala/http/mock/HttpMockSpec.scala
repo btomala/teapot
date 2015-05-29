@@ -15,7 +15,7 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
 
   override def afterAll = system.shutdown()
 
-  val timeout = 1 seconds
+  val timeout = 2 seconds
 
   val mockServer = new HttpMock()
   val mainPath = mockServer.path
