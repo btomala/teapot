@@ -34,6 +34,8 @@ import btomala.http.mock.HttpMock
 
 For more look in to the `HttpMockSpec`
 
+If somethings goes wrong, server response with 418 "I'm a teapot" status.
+
 Test must executed sequential or create new instance of server for every test/suit.
 
 ## todo
