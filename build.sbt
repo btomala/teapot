@@ -16,14 +16,12 @@ unmanagedSourceDirectories in Test := (scalaSource in Test).value :: Nil
 
 val libVersion = Map(
  "akka-http" → "1.0-RC3",
- "scalaTest" → "2.2.4",
-  "dispatch" → "0.11.2"
-  )
+ "scalaTest" → "2.2.4"
+)
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka"       %% "akka-http-core-experimental"           % libVersion("akka-http"),
   "com.typesafe.akka"       %% "akka-http-testkit-experimental"        % libVersion("akka-http") % "test",
-  "net.databinder.dispatch" %% "dispatch-core"                         % libVersion("dispatch")  % "test",
   "org.scalatest"           %% "scalatest"                             % libVersion("scalaTest") % "test"
 )
 
