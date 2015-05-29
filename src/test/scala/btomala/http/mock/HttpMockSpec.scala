@@ -20,15 +20,8 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
   val mockServer = new HttpMock()
   val mainPath = mockServer.path
   val serverPort = mockServer.port
-    
 
   "Http Mock Server" when {
-    "created" should {
-      val port = 10080
-      s"be running on port $port" in {
-        mockServer.port shouldBe port
-      }
-    }
     "not have recorded any request" should {
       "respond `I'm a teapot`" in {
         val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
