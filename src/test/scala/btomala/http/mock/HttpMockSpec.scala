@@ -2,6 +2,7 @@ package btomala.http.mock
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
+import akka.http.scaladsl.model.headers.Server
 import akka.stream.ActorFlowMaterializer
 import akka.testkit.TestKit
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
@@ -29,10 +30,15 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
       }
     }
     "have recorded one request" should {
-      "send recorded response" in {
+      "send recorded empty response" in {
         mockServer.record (akkaRequest → emptyResponse)
         val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
         response.status.intValue shouldBe emptyResponse.status.intValue
+      }
+      "send recorded response" in {
+        mockServer.record (akkaRequest → noEmptyResponse)
+        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        response shouldBe noEmptyResponse
       }
       "return `I'm a teapot` if request didn't match " in {
         mockServer.record (HttpRequest() → emptyResponse)
@@ -44,4 +50,6 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
 
   val akkaRequest = HttpRequest(uri = Uri(mainPath), headers = helpers.akkahttp.headers(port = serverPort))
   val emptyResponse = HttpResponse()
+  val noEmptyResponse = HttpResponse(headers = helpers.akkahttp.response)
+
 }
