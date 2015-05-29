@@ -5,7 +5,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.stream.ActorFlowMaterializer
 import akka.stream.scaladsl.Sink
-import com.typesafe.config.{ConfigFactory, Config}
+import com.typesafe.config.{Config, ConfigFactory}
 
 class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem, materializer: ActorFlowMaterializer) {
 
@@ -16,8 +16,7 @@ class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem
   private val recorded = scala.collection.mutable.Map[HttpRequest, HttpResponse]()
 
   private val requests: HttpRequest => HttpResponse = { request ⇒
-    //fixme INTERNAL SERVER ERROR is returned instead exception because is thrown in different thread - move to validation
-  val response = recorded.get(request).getOrElse(throw new UnknownRequestException(request.toString))
+  val response = recorded.get(request).getOrElse(notRecordedResponse(request.protocol))
     recorded -= request
     system.log.info("\n" + request + "\n" + response)
     response

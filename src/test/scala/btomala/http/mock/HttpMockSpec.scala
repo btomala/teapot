@@ -6,52 +6,49 @@ import akka.stream.ActorFlowMaterializer
 import akka.testkit.TestKit
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
-import dispatch._
-import Defaults._
-
-import btomala.http.mock.helpers.dispatch
-
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class HttpMockSpec extends TestKit(ActorSystem("ServiceTest")) with WordSpecLike with Matchers with BeforeAndAfterAll {
+class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec with WordSpecLike with Matchers with BeforeAndAfterAll {
 
-  override def afterAll = system.shutdown()
   implicit val materializer = ActorFlowMaterializer()
 
-  val port = 10080
+  override def afterAll = system.shutdown()
+
+  val timeout = 1 seconds
 
   val mockServer = new HttpMock()
   val mainPath = mockServer.path
-
-  val req = HttpRequest(uri = Uri(mainPath), headers = dispatch.headers(port = port))
-  val resp = HttpResponse()
+  val serverPort = mockServer.port
+    
 
   "Http Mock Server" when {
     "created" should {
+      val port = 10080
       s"be running on port $port" in {
         mockServer.port shouldBe port
       }
     }
+    "not have recorded any request" should {
+      "respond `I'm a teapot`" in {
+        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        response.status.intValue shouldBe 418
+      }
+    }
     "have recorded one request" should {
       "send recorded response" in {
-        mockServer.record (req → resp)
-        val res = Await.result(Http(url(mainPath)), 2 seconds)
-        res.getStatusCode shouldBe resp.status.intValue
+        mockServer.record (akkaRequest → emptyResponse)
+        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        response.status.intValue shouldBe emptyResponse.status.intValue
       }
-    }
-    "not have recorded any request" should {
-      "return InternalServerError " in {
-        val res = Http(url(mainPath)).map(_.getStatusCode)
-        Await.result(res, 10 seconds) shouldBe 500
-      }
-    }
-    "have recorded some request but request didn't match" should {
-      "throw InternalServerError" in {
-        mockServer.record (HttpRequest() → resp)
-        val res = Http(url(mainPath)).map(_.getStatusCode)
-        Await.result(res, 2 seconds) shouldBe 500
+      "return `I'm a teapot` if request didn't match " in {
+        mockServer.record (HttpRequest() → emptyResponse)
+        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        response.status.intValue shouldBe 418
       }
     }
   }
+
+  val akkaRequest = HttpRequest(uri = Uri(mainPath), headers = helpers.akkahttp.headers(port = serverPort))
+  val emptyResponse = HttpResponse()
 }
