@@ -2,7 +2,7 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 organization := "btomala"
 
-name := "http-mock"
+name := "teapot"
 
 version := "0.1"
 

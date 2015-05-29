@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/btomala/http-mock.svg?branch=master)](https://travis-ci.org/btomala/http-mock)
 [![Download](https://api.bintray.com/packages/btomala/maven/http-mock/images/download.svg) ](https://bintray.com/btomala/maven/http-mock/_latestVersion)
  
-# http-mock
+# teapot
 
-Is a simple mocking http server framework based on [akka-http](akka.io) written in scala friendly api in future release ;).
+Is a simple mocking http server based on [akka-http](akka.io) written in scala.
 
 ## usage 
 
@@ -38,8 +38,8 @@ Test must executed sequential or create new instance of server for every test/su
 
 ## todo
 
- - validation
- - hash for the test - one server for all tests
+ - hash for the test - one server for all tests?
+ - validation (show differences)
  - simple support for json body and other content-type
  - use akka-http client in test
- - nice dsl
+ - dsl?
