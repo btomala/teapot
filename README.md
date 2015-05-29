@@ -40,8 +40,7 @@ Test must executed sequential or create new instance of server for every test/su
 
 ## todo
 
- - hash for the test - one server for all tests?
+ - unique id for the test - one (server) to rule them all
  - validation (show differences)
  - simple support for json body and other content-type
- - use akka-http client in test
  - dsl?
