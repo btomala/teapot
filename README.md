@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/btomala/http-mock.svg?branch=master)](https://travis-ci.org/btomala/http-mock)
-[![Download](https://api.bintray.com/packages/btomala/maven/http-mock/images/download.svg) ](https://bintray.com/btomala/maven/http-mock/_latestVersion)
+[![Build Status](https://travis-ci.org/btomala/teapot.svg?branch=master)](https://travis-ci.org/btomala/teapot)
+[![Download](https://api.bintray.com/packages/btomala/maven/teapot/images/download.svg) ](https://bintray.com/btomala/maven/teapot/_latestVersion)
  
 # teapot
 
