@@ -2,14 +2,15 @@ package btomala.teapot
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.Server
 import akka.stream.ActorFlowMaterializer
 import akka.testkit.TestKit
+import btomala.teapot.response.teapot
 import btomala.teapot.headers.default
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.collection.immutable.Seq
 
 class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec with WordSpecLike with Matchers with BeforeAndAfterAll {
 
@@ -31,26 +32,27 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
       }
     }
     "have recorded one request" should {
-      "send recorded empty response" in {
-        mockServer.record (akkaRequest → emptyResponse)
+      "send recorded empty response with additional headers (Server, Date)" in {
+        mockServer.record (akkaDefaultRequest → emptyResponse)
         val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
-        response.status.intValue shouldBe emptyResponse.status.intValue
+        //todo add ignore headers
+        response.copy(headers = Seq.empty[HttpHeader]) shouldBe emptyResponse
       }
       "send recorded response" in {
-        mockServer.record (akkaRequest → noEmptyResponse)
+        mockServer.record (akkaDefaultRequest → defaultResponse)
         val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
-        response shouldBe noEmptyResponse
+        response shouldBe defaultResponse
       }
       "return `I'm a teapot` if request didn't match " in {
         mockServer.record (HttpRequest() → emptyResponse)
         val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
-        response.status.intValue shouldBe 418
+        response shouldBe teapot
       }
     }
   }
 
-  val akkaRequest = HttpRequest(uri = Uri(mainPath), headers = default.akkahttp(port = serverPort))
+  val akkaDefaultRequest = HttpRequest(uri = Uri(mainPath), headers = default.akkahttp(port = serverPort))
   val emptyResponse = HttpResponse()
-  val noEmptyResponse = HttpResponse(headers = default.response)
+  val defaultResponse = HttpResponse(headers = default.response)
 
 }
