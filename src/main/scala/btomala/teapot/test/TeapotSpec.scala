@@ -1,10 +1,11 @@
-package btomala.http.mock.test
+package btomala.teapot.test
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse, StatusCode}
 import akka.http.{ClientConnectionSettings, ConnectionPoolSettings, ParserSettings}
 import akka.stream.FlowMaterializer
+import btomala.teapot.`I'mATeapot`
 
 import scala.concurrent.Future
 

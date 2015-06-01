@@ -1,4 +1,4 @@
-package btomala.http.mock.helpers
+package btomala.teapot.helpers
 
 import akka.http.scaladsl.model.DateTime
 import akka.http.scaladsl.model.headers._

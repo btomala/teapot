@@ -1,4 +1,4 @@
-package btomala.http.mock
+package btomala.teapot
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._

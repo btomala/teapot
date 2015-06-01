@@ -1,4 +1,4 @@
-package btomala.http.mock.helpers
+package btomala.teapot.helpers
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
