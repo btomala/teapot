@@ -5,6 +5,7 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.Server
 import akka.stream.ActorFlowMaterializer
 import akka.testkit.TestKit
+import btomala.teapot.headers.default
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scala.concurrent.Await
@@ -48,8 +49,8 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
     }
   }
 
-  val akkaRequest = HttpRequest(uri = Uri(mainPath), headers = helpers.akkahttp.headers(port = serverPort))
+  val akkaRequest = HttpRequest(uri = Uri(mainPath), headers = default.akkahttp(port = serverPort))
   val emptyResponse = HttpResponse()
-  val noEmptyResponse = HttpResponse(headers = helpers.akkahttp.response)
+  val noEmptyResponse = HttpResponse(headers = default.response)
 
 }
