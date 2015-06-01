@@ -11,8 +11,11 @@ import scala.concurrent.Future
 
 trait TeapotSpec {
 
+  /**
+   * akka-http client request with handle response 418
+   */
   def request(request: HttpRequest)(implicit system: ActorSystem, materializer: FlowMaterializer): Future[HttpResponse] = {
-    val customCode: Int ⇒ Option[StatusCode] = {case 418 ⇒ Some(btomala.http.mock.`I'mATeapot`)}
+    val customCode: Int ⇒ Option[StatusCode] = {case 418 ⇒ Some(`I'mATeapot`)}
     val parserSettings= ParserSettings(system).copy(customStatusCodes = customCode)
     val clientSettings = ClientConnectionSettings(system).copy(parserSettings = parserSettings)
     val poolSettings = ConnectionPoolSettings(system).copy(connectionSettings = clientSettings)
