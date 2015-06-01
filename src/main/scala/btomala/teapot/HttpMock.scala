@@ -2,10 +2,11 @@ package btomala.teapot
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model._
+import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.stream.ActorFlowMaterializer
 import akka.stream.scaladsl.Sink
 import com.typesafe.config.{Config, ConfigFactory}
+import response.teapotResponse
 
 class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem, materializer: ActorFlowMaterializer) {
 
@@ -16,7 +17,7 @@ class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem
   private val recorded = scala.collection.mutable.Map[HttpRequest, HttpResponse]()
 
   private val requests: HttpRequest => HttpResponse = { request ⇒
-  val response = recorded.get(request).getOrElse(notRecordedResponse(request.protocol))
+    val response = recorded.getOrElse(request, teapotResponse(request.protocol))
     recorded -= request
     system.log.info("\n" + request + "\n" + response)
     response

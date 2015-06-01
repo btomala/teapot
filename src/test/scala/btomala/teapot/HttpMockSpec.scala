@@ -15,7 +15,7 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
 
   implicit val materializer = ActorFlowMaterializer()
 
-  override def afterAll = system.shutdown()
+  override def afterAll() = system.shutdown()
 
   val timeout = 2 seconds
 
@@ -26,24 +26,24 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
   "Http Mock Server" when {
     "not have recorded any request" should {
       "respond `I'm a teapot`" in {
-        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
         response.status.intValue shouldBe 418
       }
     }
     "have recorded one request" should {
       "send recorded empty response" in {
         mockServer.record (akkaRequest → emptyResponse)
-        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
         response.status.intValue shouldBe emptyResponse.status.intValue
       }
       "send recorded response" in {
         mockServer.record (akkaRequest → noEmptyResponse)
-        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
         response shouldBe noEmptyResponse
       }
       "return `I'm a teapot` if request didn't match " in {
         mockServer.record (HttpRequest() → emptyResponse)
-        val response = Await.result(request(HttpRequest(uri = Uri(mainPath))), timeout)
+        val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
         response.status.intValue shouldBe 418
       }
     }

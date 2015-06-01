@@ -23,6 +23,7 @@ package object default {
       `User-Agent`(userAgent)
     )
 
+  /** headers for teapot response*/
   def response: immutable.Seq[ModeledHeader] =
     scala.collection.immutable.Seq(
       Server("akka-http/2.3.11"),
