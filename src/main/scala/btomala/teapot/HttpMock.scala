@@ -8,13 +8,14 @@ import akka.stream.scaladsl.Sink
 import com.typesafe.config.{Config, ConfigFactory}
 import response.teapotResponse
 
+//todo add factory to prevent crate another server on the same port
 class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem, materializer: ActorFlowMaterializer) {
 
-  val host = config.getString("mock.http.interface")
-  val port = config.getInt("mock.http.port")
+  val host = config.getString("mock.http.interface") //not needed
+  val port = config.getInt("mock.http.port") //can be default from akka
   val path = s"http://$host:$port/"
 
-  private val recorded = scala.collection.mutable.Map[HttpRequest, HttpResponse]()
+  private val recorded = scala.collection.concurrent.TrieMap[HttpRequest, HttpResponse]()
 
   private val requests: HttpRequest => HttpResponse = { request ⇒
     val response = recorded.getOrElse(request, teapotResponse(request.protocol))
