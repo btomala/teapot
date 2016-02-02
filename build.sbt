@@ -1,5 +1,3 @@
-net.virtualvoid.sbt.graph.Plugin.graphSettings
-
 organization := "btomala"
 
 name := "teapot"
@@ -14,8 +12,8 @@ unmanagedSourceDirectories in Test := (scalaSource in Test).value :: Nil
 lazy val teapot = (project in file(".")).enablePlugins(GitVersioning)
 
 val libVersion = Map(
- "akka-http" → "1.0-RC3",
- "scalaTest" → "2.2.5"
+ "akka-http" → "2.0.3",
+ "scalaTest" → "2.2.6"
 )
 
 libraryDependencies ++= Seq(

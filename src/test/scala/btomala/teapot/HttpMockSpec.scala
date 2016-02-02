@@ -2,7 +2,7 @@ package btomala.teapot
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
-import akka.stream.ActorFlowMaterializer
+import akka.stream.ActorMaterializer
 import akka.testkit.TestKit
 import btomala.teapot.response.teapot
 import btomala.teapot.headers.default
@@ -14,7 +14,7 @@ import scala.collection.immutable.Seq
 
 class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec with WordSpecLike with Matchers with BeforeAndAfterAll {
 
-  implicit val materializer = ActorFlowMaterializer()
+  implicit val materializer = ActorMaterializer()
 
   override def afterAll() = system.shutdown()
 

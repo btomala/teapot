@@ -3,13 +3,13 @@ package btomala.teapot
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.stream.ActorFlowMaterializer
+import akka.stream.Materializer
 import akka.stream.scaladsl.Sink
 import com.typesafe.config.{Config, ConfigFactory}
 import response.teapotResponse
 
 //todo add factory to prevent crate another server on the same port
-class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem, materializer: ActorFlowMaterializer) {
+class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem, materializer: Materializer) {
 
   val host = config.getString("mock.http.interface") //not needed
   val port = config.getInt("mock.http.port") //can be default from akka
