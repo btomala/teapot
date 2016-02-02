@@ -35,7 +35,6 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
       "send recorded empty response with additional headers (Server, Date)" in {
         mockServer.record (akkaDefaultRequest → emptyResponse)
         val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
-        //todo add ignore headers
         response.copy(headers = Seq.empty[HttpHeader]) shouldBe emptyResponse
       }
       "send recorded response" in {

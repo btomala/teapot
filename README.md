@@ -43,4 +43,8 @@ Test must executed sequential or create new instance of server for every test/su
  - counter how many request are recorded
  - validation (better show differences, ignore selected headers while comparing )
  - simple support body  
+ - todo add factory to prevent crate another server on the same port
+ 
+## conception
+ - build stand alone server?
  - dsl?
