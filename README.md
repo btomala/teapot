@@ -12,7 +12,7 @@ To use add resolver to your build
 ```
 resolvers += "btomala at bintray" at "https://dl.bintray.com/btomala/maven/"
 
-libraryDependencies += "btomala" %% "teapot" % "0.2"
+libraryDependencies += "btomala" %% "teapot" % "0.3"
 ```
 
 Sample of usage
@@ -40,7 +40,7 @@ Test must executed sequential or create new instance of server for every test/su
 
 ## todo
 
- - unique id for the test - one (server) to rule them all
- - validation (show differences, ignore headers during compare  )
+ - counter how many request are recorded
+ - validation (better show differences, ignore selected headers while comparing )
  - simple support body  
  - dsl?
