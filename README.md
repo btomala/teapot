@@ -37,14 +37,3 @@ For more look in to the `HttpMockSpec`
 If somethings goes wrong, server response with 418 "I'm a teapot" status.
 
 Test must executed sequential or create new instance of server for every test/suit.
-
-## todo
-
- - counter how many request are recorded
- - validation (better show differences, ignore selected headers while comparing )
- - simple support body  
- - todo add factory to prevent crate another server on the same port
- 
-## conception
- - build stand alone server?
- - dsl?
