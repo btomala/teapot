@@ -39,7 +39,9 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
       }
       "send recorded response" in {
         mockServer.record (akkaDefaultRequest → defaultResponse)
+
         val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
+
         response shouldBe defaultResponse
       }
       "return `I'm a teapot` if request didn't match " in {

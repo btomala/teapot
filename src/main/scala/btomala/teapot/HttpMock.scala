@@ -2,6 +2,7 @@ package btomala.teapot
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.headers.`Timeout-Access`
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.stream.Materializer
 import akka.stream.scaladsl.Sink
@@ -17,9 +18,13 @@ class HttpMock(config: Config = ConfigFactory.load)(implicit system: ActorSystem
   private val recorded = scala.collection.concurrent.TrieMap[HttpRequest, HttpResponse]()
 
   private val requests: HttpRequest => HttpResponse = { request ⇒
-    val response = recorded.getOrElse(request, teapotResponse(request.protocol))
-    recorded -= request
-    system.log.info("\n" + request + "\n" + response)
+
+    //FIXMe workaround for `timeout-access`
+    val newRequest = request.copy(headers = request.headers.filterNot(heder => heder.is(`Timeout-Access`.name.toLowerCase)))
+
+    val response = recorded.getOrElse(newRequest, teapotResponse(newRequest.protocol))
+    recorded -= newRequest
+    system.log.info("\n" + newRequest + "\n" + response)
     response
   }
 

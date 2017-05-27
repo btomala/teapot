@@ -2,8 +2,8 @@ package btomala.teapot.test
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, HttpResponse, StatusCode}
-import akka.http.{ClientConnectionSettings, ConnectionPoolSettings, ParserSettings}
+import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
+import akka.http.scaladsl.settings.{ClientConnectionSettings, ConnectionPoolSettings, ParserSettings}
 import akka.stream.Materializer
 import btomala.teapot.status.`I'mATeapot`
 
@@ -15,10 +15,9 @@ trait TeapotSpec {
    * akka-http client request with handle response 418
    */
   def make(request: HttpRequest)(implicit system: ActorSystem, materializer: Materializer): Future[HttpResponse] = {
-    val customCode: Int ⇒ Option[StatusCode] = {case 418 ⇒ Some(`I'mATeapot`)}
-    val parserSettings= ParserSettings(system).copy(customStatusCodes = customCode)
-    val clientSettings = ClientConnectionSettings(system).copy(parserSettings = parserSettings)
-    val poolSettings = ConnectionPoolSettings(system).copy(connectionSettings = clientSettings)
+    val parserSettings: ParserSettings = ParserSettings(system).withCustomStatusCodes(`I'mATeapot`)
+    val clientSettings = ClientConnectionSettings(system).withParserSettings(parserSettings)
+    val poolSettings = ConnectionPoolSettings(system).withConnectionSettings(clientSettings)
     Http().singleRequest(request, settings = poolSettings)
   }
 
