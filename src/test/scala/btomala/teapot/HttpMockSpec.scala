@@ -4,19 +4,19 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
 import akka.stream.ActorMaterializer
 import akka.testkit.TestKit
-import btomala.teapot.response.teapot
 import btomala.teapot.headers.default
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
+import btomala.teapot.response.teapot
+import org.scalatest.{AsyncWordSpecLike, BeforeAndAfterAll, Matchers}
 
+import scala.collection.immutable.Seq
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.collection.immutable.Seq
 
-class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec with WordSpecLike with Matchers with BeforeAndAfterAll {
+class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec with AsyncWordSpecLike with Matchers with BeforeAndAfterAll {
 
   implicit val materializer = ActorMaterializer()
 
-  override def afterAll() = system.shutdown()
+  override def afterAll() = system.terminate()
 
   val timeout = 2 seconds
 
@@ -47,7 +47,7 @@ class HttpMockSpec extends TestKit(ActorSystem("teapot")) with test.TeapotSpec w
       "return `I'm a teapot` if request didn't match " in {
         mockServer.record (HttpRequest() → emptyResponse)
         val response = Await.result(make(HttpRequest(uri = Uri(mainPath))), timeout)
-        response shouldBe teapot
+        response.toStrict(timeout).map(_ shouldBe teapot)
       }
     }
   }

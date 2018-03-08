@@ -12,7 +12,7 @@ To use add resolver to your build
 ```
 resolvers += "btomala at bintray" at "https://dl.bintray.com/btomala/maven/"
 
-libraryDependencies += "btomala" %% "teapot" % "0.3"
+libraryDependencies += "btomala" %% "teapot" % "0.4"
 ```
 
 Sample of usage

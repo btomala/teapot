@@ -8,7 +8,7 @@ import scala.collection.immutable
 package object default {
 
   /** required headers when you are using akka-http client*/
-  def akkahttp(host: String = "localhost", port: Int = 80, userAgent:String  = "akka-http/10.0.7") =
+  def akkahttp(host: String = "localhost", port: Int = 80, userAgent:String  = "akka-http/10.0.11") =
     scala.collection.immutable.Seq(
       Host(host, port),
       `User-Agent`(userAgent)
@@ -27,6 +27,7 @@ package object default {
   def response: immutable.Seq[ModeledHeader] =
     scala.collection.immutable.Seq(
       Server("akka-http/2.3.11"),
-      Date(DateTime.now)
+      Date(DateTime.now),
+      Connection("close")
     )
 }
